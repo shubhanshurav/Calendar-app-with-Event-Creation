@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+const BACKEND_URL =
+  process.env.REACT_APP_BACKEND_URL || "http://localhost:5000/api/v1";
+
 
 const EventForm = ({ selectedDate, event, closeModal, refreshEvents }) => {
   const [title, setTitle] = useState("");

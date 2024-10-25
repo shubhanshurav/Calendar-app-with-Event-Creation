@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost:5000/api/v1";
 console.log(BACKEND_URL)
 
 const Signup = () => {
@@ -16,7 +16,7 @@ const Signup = () => {
     e.preventDefault();
     setError(null);
     try {
-      const res = await axios.post(`http://localhost:5000/api/v1/auth/signup`, {
+      const res = await axios.post(`${BACKEND_URL}/auth/signup`, {
         fullName,
         email,
         password,

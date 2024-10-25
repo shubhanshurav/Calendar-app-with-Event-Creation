@@ -29,7 +29,7 @@ const EventModal = ({ selectedDate, event, closeModal, refreshEvents }) => {
           onClick={closeModal} // Close button click hone par modal close hoga
           className="mt-4 bg-red-500 text-white p-2 rounded"
         >
-          Close {/* Close button ka text */}
+          Close 
         </button>
       </div>
     </div>
