@@ -15,7 +15,7 @@ const Login = () => {
     e.preventDefault();
     setError(null);
     try {
-      const res = await axios.post(`http://localhost:5000/api/v1/auth/login`, {
+      const res = await axios.post(`${BACKEND_URL}/auth/login`, {
         email,
         password,
       });
