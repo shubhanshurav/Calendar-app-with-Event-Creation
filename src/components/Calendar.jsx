@@ -10,6 +10,7 @@ import {
 } from "date-fns";
 import EventModal from "./EventModal";
 import useFetchEvents from "../hooks/useFetchEvents";
+import { Link } from "react-router-dom";
 
 const Calendar = () => {
   // State variables declare kar rahe hain
@@ -57,7 +58,10 @@ const Calendar = () => {
   // Calendar header render karne ka function
   const renderHeader = () => (
     <div className="flex justify-between items-center mb-4 p-2 bg-blue-600 text-white rounded-lg">
-      <button onClick={prevMonth} className="hover:bg-blue-500 p-2 rounded">
+      <button
+        onClick={prevMonth}
+        className="hover:bg-blue-500 font-bold text-2xl p-2 rounded"
+      >
         &lt; {/* Pichla mahina */}
       </button>
       {/* Month selector dropdown */}
@@ -89,7 +93,16 @@ const Calendar = () => {
           );
         })}
       </select>
-      <button onClick={nextMonth} className="hover:bg-blue-500 p-2 rounded">
+      <Link
+        to={"/allEvents"}
+        className="bg-red-500 hover:bg-red-600 p-2 rounded text-white ml-4"
+      >
+        Show All Events
+      </Link>
+      <button
+        onClick={nextMonth}
+        className="hover:bg-blue-500 p-2 font-bold text-2xl rounded"
+      >
         &gt; {/* Agla mahina */}
       </button>
     </div>

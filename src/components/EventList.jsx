@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import EventForm from "./EventForm"; // Import your EventForm component
 import useFetchEvents from "../hooks/useFetchEvents"; // Import your custom hook
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
@@ -34,8 +35,14 @@ const EventList = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center">
-      <div className="max-w-2xl mx-auto p-6 bg-white shadow-md rounded-lg">
+    <div className="min-h-screen bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center ">
+      <div className="w-[80%] mx-auto p-8 bg-white shadow-md rounded-lg">
+        <Link
+          to={"/dashboard"}
+          className="bg-blue-500 hover:bg-blue-400 p-2 rounded text-white ml-4"
+        >
+          Back to Dashboard
+        </Link>
         <h2 className="text-3xl font-bold mb-4 text-center text-gray-800">
           Your Events
         </h2>
@@ -45,26 +52,30 @@ const EventList = () => {
               key={event._id}
               className="flex flex-col justify-between p-4 border rounded-lg shadow-md bg-gray-50 hover:bg-gray-100 transition-all duration-200"
             >
-              <div>
-                <strong className="text-xl text-gray-800">{event.title}</strong>
-                <p className="text-gray-700">{event.description}</p>
-                <p className="text-gray-500">
-                  {new Date(event.date).toLocaleString()}
-                </p>
-              </div>
-              <div className="flex space-x-2 mt-2">
-                <button
-                  onClick={() => openModal(event)}
-                  className="bg-yellow-500 text-white p-2 rounded hover:bg-yellow-600 transition-colors duration-200"
-                >
-                  Edit
-                </button>
-                <button
-                  onClick={() => handleDelete(event._id)}
-                  className="bg-red-500 text-white p-2 rounded hover:bg-red-600 transition-colors duration-200"
-                >
-                  Delete
-                </button>
+              <div className="flex flex-col md:flex-row justify-between">
+                <div className="">
+                  <strong className="text-xl text-gray-800">
+                    {event.title}
+                  </strong>
+                  <p className="text-gray-700">{event.description}</p>
+                  <p className="text-gray-500">
+                    {new Date(event.date).toLocaleString()}
+                  </p>
+                </div>
+                <div className="flex space-x-3 ">
+                  <button
+                    onClick={() => openModal(event)}
+                    className="bg-yellow-500 my-0 md:my-4 text-white px-4 rounded hover:bg-yellow-600 transition-colors duration-200"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => handleDelete(event._id)}
+                    className="bg-red-500 my-0 md:my-4 text-white px-4 rounded hover:bg-red-600 transition-colors duration-200"
+                  >
+                    Delete
+                  </button>
+                </div>
               </div>
             </li>
           ))}
