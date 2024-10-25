@@ -85,10 +85,10 @@ const Calendar = () => {
         }
       >
         {Array.from({ length: 10 }).map((_, i) => {
-          const year = new Date().getFullYear() - 5 + i; // 5 saal ka range
+          const year = new Date().getFullYear() + i; // 5 saal ka range
           return (
             <option key={year} value={year}>
-              {year} {/* Saal */}
+              {year}
             </option>
           );
         })}
