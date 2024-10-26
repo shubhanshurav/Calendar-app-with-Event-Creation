@@ -7,27 +7,22 @@ const allRoutes = require("./routes");
 
 const PORT = process.env.PORT || 8000;
 
-// Connect to the database
 database.connect();
 
-// Middleware
 app.use(express.json());
 app.use(cookieParser());
 
-// CORS middleware (must be above routes to ensure headers are applied)
 app.use(
   cors({
-    origin: "*", // Allow only your frontend's origin
-    methods: ["GET", "POST", "PUT", "DELETE"], // Allowed HTTP methods
-    allowedHeaders: ["Content-Type", "Authorization"], // Allowed headers
-    credentials: true, // Allow credentials like cookies
+    origin: "*", 
+    methods: ["GET", "POST", "PUT", "DELETE"], 
+    allowedHeaders: ["Content-Type", "Authorization"], 
+    credentials: true, 
   })
 );
 
-// Routes
 app.use("/api/v1", allRoutes);
 
-// Root route
 app.get("/", (req, res) => {
   return res.json({
     success: true,
@@ -35,7 +30,6 @@ app.get("/", (req, res) => {
   });
 });
 
-// Start the server
 app.listen(PORT, () => {
   console.log(`App is running on Port no: ${PORT}`);
 });

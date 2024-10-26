@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import EventForm from "./EventForm"; // Import your EventForm component
-import useFetchEvents from "../hooks/useFetchEvents"; // Import your custom hook
+import EventForm from "./EventForm"; 
+import useFetchEvents from "../hooks/useFetchEvents"; 
 import axios from "axios";
 import { Link } from "react-router-dom";
 
@@ -28,7 +28,7 @@ const EventList = () => {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
       alert("Event deleted successfully!");
-      fetchEvents(); // Refresh events after deletion
+      fetchEvents(); 
     } catch (error) {
       console.error("Error deleting event:", error);
       alert("An error occurred while deleting the event.");

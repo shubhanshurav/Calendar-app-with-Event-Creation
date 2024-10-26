@@ -1,6 +1,5 @@
 const Calendar = require("../models/Calendar");
 
-// Create Event
 exports.createEvent = async (req, res) => {
   try {
     const { title, description, date } = req.body;
@@ -12,11 +11,10 @@ exports.createEvent = async (req, res) => {
       });
     }
 
-    // Create new event
     const event = new Calendar({
       title,
       description,
-      date: new Date(date), // Ensure date is a Date object
+      date: new Date(date), 
       userId: req.user._id,
     });
 
@@ -36,10 +34,9 @@ exports.createEvent = async (req, res) => {
 };
 
 
-// Get All Events for Logged-in User
 exports.getEvents = async (req, res) => {
   try {
-    const userId = req.user.id; // Ensure user is authenticated
+    const userId = req.user.id; 
     const allEvents = await Calendar.find({ userId });
 
     if (!allEvents || allEvents.length === 0) {
@@ -64,14 +61,14 @@ exports.getEvents = async (req, res) => {
 };
 
 
-// Update Event
+
 exports.updateEvent = async (req, res) => {
   try {
     const { id } = req.params;
     const updatedEvent = await Calendar.findOneAndUpdate(
-      { _id: id, userId: req.user.id }, // Ensure the user is the owner
+      { _id: id, userId: req.user.id }, 
       req.body,
-      { new: true } // Return the updated event
+      { new: true } 
     );
 
     console.log(req.body);
@@ -97,13 +94,12 @@ exports.updateEvent = async (req, res) => {
   }
 };
 
-// Delete Event
 exports.deleteEvent = async (req, res) => {
   try {
     const { id } = req.params;
     const deletedEvent = await Calendar.findOneAndDelete({
       _id: id,
-      userId: req.user.id, // Ensure the user is the owner
+      userId: req.user.id, 
     });
 
     if (!deletedEvent) {

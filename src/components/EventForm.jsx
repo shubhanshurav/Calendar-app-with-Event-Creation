@@ -8,33 +8,31 @@ const BACKEND_URL =
 const EventForm = ({ selectedDate, event, closeModal, refreshEvents }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [time, setTime] = useState(""); // New state for time
+  const [time, setTime] = useState(""); 
 
   useEffect(() => {
     if (event) {
       setTitle(event.title);
       setDescription(event.description);
-      // Set time from event date
       setTime(new Date(event.date).toISOString().substring(11, 16)); 
     } else {
-      setTime(""); // Reset time for new event
+      setTime(""); 
     }
   }, [event]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Combine the selected date with the selected time
     const selectedDateTime = new Date(selectedDate);
-    selectedDateTime.setHours(time.split(":")[0]); // Set the hours from the time input
-    selectedDateTime.setMinutes(time.split(":")[1]); // Set the minutes from the time input
+    selectedDateTime.setHours(time.split(":")[0]); 
+    selectedDateTime.setMinutes(time.split(":")[1]); 
 
     // console.log(selectedDate)
 
     const eventData = {
       title,
       description,
-      date: selectedDateTime, // Use the combined date and time
+      date: selectedDateTime, 
     };
 
     try {
@@ -93,12 +91,12 @@ const EventForm = ({ selectedDate, event, closeModal, refreshEvents }) => {
         />
       </div>
       <div>
-        <label>Time:</label> {/* Time label */}
+        <label>Time:</label> 
         <input
           type="time"
           className="border w-full p-2"
           value={time}
-          onChange={(e) => setTime(e.target.value)} // Update time state
+          onChange={(e) => setTime(e.target.value)} 
           required
         />
       </div>

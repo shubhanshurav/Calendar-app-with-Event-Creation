@@ -13,121 +13,113 @@ import useFetchEvents from "../hooks/useFetchEvents";
 import { Link } from "react-router-dom";
 
 const Calendar = () => {
-  // State variables declare kar rahe hain
-  const [currentMonth, setCurrentMonth] = useState(new Date()); // Aaj ka mahina
-  const [selectedDate, setSelectedDate] = useState(new Date()); // Chuni hui tarikh
-  const [showModal, setShowModal] = useState(false); // Modal dikhane ke liye
-  const [selectedEvent, setSelectedEvent] = useState(null); // Chuna hua event
+ 
+  const [currentMonth, setCurrentMonth] = useState(new Date()); 
+  const [selectedDate, setSelectedDate] = useState(new Date()); 
+  const [showModal, setShowModal] = useState(false); 
+  const [selectedEvent, setSelectedEvent] = useState(null); 
 
-  // Events fetch karne ke liye custom hook
   const { events, fetchEvents } = useFetchEvents(currentMonth);
 
-  // Tarikh par click hone par
   const onDateClick = useCallback(
     (day) => {
-      setSelectedDate(day); // Selected date set karna
+      setSelectedDate(day);
       const dayEvents = events.filter(
-        (event) => isSameDay(new Date(event.date), day) // Us din ke events filter karna
+        (event) => isSameDay(new Date(event.date), day) 
       );
 
       if (dayEvents.length === 0) {
-        setSelectedEvent(null); // Agar koi event nahi hai to selected event null karna
-        setShowModal(true); // Modal show karna
+        setSelectedEvent(null); 
+        setShowModal(true); 
       }
     },
     [events]
   );
 
-  // Event modal kholne ke liye
   const openModal = useCallback((event) => {
-    setSelectedEvent(event); // Selected event set karna
-    setShowModal(true); // Modal kholna
+    setSelectedEvent(event); 
+    setShowModal(true); 
   }, []);
 
-  // Month aur year change karne ka function
   const changeMonthYear = (newMonth, newYear) => {
-    const newDate = new Date(newYear, newMonth); // Nayi date create karna
-    setCurrentMonth(newDate); // Current month update karna
+    const newDate = new Date(newYear, newMonth); 
+    setCurrentMonth(newDate); 
   };
 
-  // Pichla mahina dikhane ke liye
   const prevMonth = () => setCurrentMonth(addDays(currentMonth, -30));
-  // Agla mahina dikhane ke liye
   const nextMonth = () => setCurrentMonth(addDays(currentMonth, 30));
 
-  // Calendar header render karne ka function
-  const renderHeader = () => (
-    <div className="flex justify-between items-center mb-4 p-2 bg-blue-600 text-white rounded-lg">
-      <button
-        onClick={prevMonth}
-        className="hover:bg-blue-500 font-bold text-2xl p-2 rounded"
-      >
-        &lt; {/* Pichla mahina */}
-      </button>
-      {/* Month selector dropdown */}
-      <select
-        className="bg-blue-600 border border-white text-white rounded px-2 py-1 mx-2"
-        onChange={(e) =>
-          changeMonthYear(parseInt(e.target.value), currentMonth.getFullYear())
-        }
-      >
-        {Array.from({ length: 12 }).map((_, i) => (
-          <option key={i} value={i}>
-            {format(new Date(2021, i), "MMMM")} {/* Mahine ka naam */}
+const renderHeader = () => (
+  <div className="flex justify-between items-center mb-4 p-2 bg-blue-600 text-white rounded-lg">
+    <button
+      onClick={prevMonth}
+      className="hover:bg-blue-500 font-bold text-md md:text-2xl p-1 md:p-2 rounded"
+    >
+      &lt;
+    </button>
+    <select
+      className="bg-blue-600 border border-white text-white rounded md:px-2 py-1 md:mx-2"
+      onChange={(e) =>
+        changeMonthYear(parseInt(e.target.value), currentMonth.getFullYear())
+      }
+      defaultValue={currentMonth.getMonth()}
+    >
+      {Array.from({ length: 12 }).map((_, i) => (
+        <option key={i} value={i}>
+          {format(new Date(2021, i), "MMMM")}
+        </option>
+      ))}
+    </select>
+    <select
+      className="bg-blue-600 border border-white text-white rounded px-2 py-1 mx-2"
+      onChange={(e) =>
+        changeMonthYear(currentMonth.getMonth(), parseInt(e.target.value))
+      }
+      defaultValue={currentMonth.getFullYear()} // Set default to the current year
+    >
+      {Array.from({ length: 10 }).map((_, i) => {
+        const year = new Date().getFullYear() + i;
+        return (
+          <option key={year} value={year}>
+            {year}
           </option>
-        ))}
-      </select>
-      {/* Year selector dropdown */}
-      <select
-        className="bg-blue-600 border border-white text-white rounded px-2 py-1 mx-2"
-        onChange={(e) =>
-          changeMonthYear(currentMonth.getMonth(), parseInt(e.target.value))
-        }
-      >
-        {Array.from({ length: 10 }).map((_, i) => {
-          const year = new Date().getFullYear() + i; // 5 saal ka range
-          return (
-            <option key={year} value={year}>
-              {year}
-            </option>
-          );
-        })}
-      </select>
-      <Link
-        to={"/allEvents"}
-        className="bg-red-500 hover:bg-red-600 p-2 rounded text-white ml-4"
-      >
-        Show All Events
-      </Link>
-      <button
-        onClick={nextMonth}
-        className="hover:bg-blue-500 p-2 font-bold text-2xl rounded"
-      >
-        &gt; {/* Agla mahina */}
-      </button>
-    </div>
-  );
+        );
+      })}
+    </select>
+    <Link
+      to={"/allEvents"}
+      className="bg-red-500 hover:bg-red-600 p-2 rounded text-white ml-0 md:ml-4"
+    >
+      All Events
+    </Link>
+    <button
+      onClick={nextMonth}
+      className="hover:bg-blue-500 p-2 font-bold text-md md:text-2xl rounded"
+    >
+      &gt;
+    </button>
+  </div>
+);
 
-  // Din ke naam render karne ka function
+
   const renderDays = () => {
-    const startDate = startOfWeek(currentMonth); // Hafte ki shuruaat
+    const startDate = startOfWeek(currentMonth); 
     return (
       <div className="grid grid-cols-7 gap-1 text-center">
         {Array.from({ length: 7 }).map((_, i) => (
           <div key={i} className="font-semibold text-gray-600">
-            {format(addDays(startDate, i), "E")} {/* Din ka naam */}
+            {format(addDays(startDate, i), "E")} 
           </div>
         ))}
       </div>
     );
   };
 
-  // Calendar cells render karne ka function
   const renderCells = () => {
-    const monthStart = startOfMonth(currentMonth); // Mahine ki shuruaat
-    const monthEnd = endOfMonth(monthStart); // Mahine ka ant
-    const startDate = startOfWeek(monthStart); // Hafte ki shuruaat
-    const endDate = startOfWeek(addDays(monthEnd, 6)); // Agle hafte ki shuruaat
+    const monthStart = startOfMonth(currentMonth); 
+    const monthEnd = endOfMonth(monthStart); 
+    const startDate = startOfWeek(monthStart); 
+    const endDate = startOfWeek(addDays(monthEnd, 6)); 
 
     const rows = [];
     let day = startDate;
@@ -136,26 +128,26 @@ const Calendar = () => {
       const days = [];
 
       for (let i = 0; i < 7; i++) {
-        const cloneDay = day; // Din ko clone karna
+        const cloneDay = day; 
         days.push(
           <div
             key={cloneDay}
-            className={`border p-2 cursor-pointer transition duration-200 ease-in-out rounded-lg ${
+            className={`border p-2 cursor-pointer w-fit transition duration-200 ease-in-out rounded-lg ${
               !isSameMonth(cloneDay, monthStart)
-                ? "text-gray-400" // Agar current month nahi hai
+                ? "text-gray-400" 
                 : "text-black"
             } ${
               isSameDay(cloneDay, selectedDate)
-                ? "bg-blue-200" // Agar selected date hai
-                : "hover:bg-blue-100" // Hover par background change
+                ? "bg-blue-200" 
+                : "hover:bg-blue-100" 
             }`}
-            onClick={() => onDateClick(cloneDay)} // Click hone par date click function
+            onClick={() => onDateClick(cloneDay)} 
           >
             <span className="block font-bold">{format(cloneDay, "d")}</span>
-            {renderEvents(cloneDay)} {/* Din ke events render karna */}
+            {renderEvents(cloneDay)} 
           </div>
         );
-        day = addDays(day, 1); // Agle din par jana
+        day = addDays(day, 1); 
       }
 
       rows.push(
@@ -165,10 +157,9 @@ const Calendar = () => {
       );
     }
 
-    return <div>{rows}</div>; // Rows return karna
+    return <div>{rows}</div>; 
   };
 
-  // Events render karne ka function
   const renderEvents = (date) => {
     const dayEvents = events.filter((event) =>
       isSameDay(new Date(event.date), date)
@@ -198,20 +189,20 @@ const Calendar = () => {
   };
 
   return (
-    <div className="p-4 bg-gray-100 rounded-lg shadow-md">
-      {renderHeader()} {/*Header render karna */}
-      {renderDays()} {/* Din render karna */}
-      {renderCells()} {/* Cells render karna */}
+    <div className="p-2 md:p-4 bg-gray-100 rounded-lg shadow-md">
+      {renderHeader()} 
+      {renderDays()} 
+      {renderCells()} 
       {showModal && (
         <EventModal
-          selectedDate={selectedDate} // Selected date modal ko bhejna
-          event={selectedEvent} // Selected event modal ko bhejna
-          closeModal={() => setShowModal(false)} // Modal close karne ka function
-          refreshEvents={fetchEvents} // Events ko refresh karne ka function
+          selectedDate={selectedDate} 
+          event={selectedEvent} 
+          closeModal={() => setShowModal(false)} 
+          refreshEvents={fetchEvents} 
         />
       )}
     </div>
   );
 };
 
-export default Calendar; // Calendar component export karna
+export default Calendar;
