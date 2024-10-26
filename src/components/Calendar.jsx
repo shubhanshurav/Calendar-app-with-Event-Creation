@@ -186,7 +186,12 @@ const Calendar = () => {
         <p className="font-bold text-red-800">{event.title}</p>
         <p className="font-semibold text-gray-800">{event.description}</p>
         <p className="text-gray-600">
-          {format(new Date(event.date), "hh:mm a")}
+          {new Date(event.date).toLocaleString("en-IN", {
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: true,
+            timeZone: "Asia/Kolkata",
+          })}
         </p>{" "}
       </div>
     ));
@@ -194,7 +199,7 @@ const Calendar = () => {
 
   return (
     <div className="p-4 bg-gray-100 rounded-lg shadow-md">
-      {renderHeader()} {/* Header render karna */}
+      {renderHeader()} {/*Header render karna */}
       {renderDays()} {/* Din render karna */}
       {renderCells()} {/* Cells render karna */}
       {showModal && (

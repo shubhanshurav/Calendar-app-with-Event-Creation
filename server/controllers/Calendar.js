@@ -74,6 +74,8 @@ exports.updateEvent = async (req, res) => {
       { new: true } // Return the updated event
     );
 
+    console.log(req.body);
+
     if (!updatedEvent) {
       return res.status(404).json({
         success: false,

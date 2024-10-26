@@ -15,7 +15,7 @@ const EventForm = ({ selectedDate, event, closeModal, refreshEvents }) => {
       setTitle(event.title);
       setDescription(event.description);
       // Set time from event date
-      setTime(new Date(event.date).toISOString().substring(11, 16)); // Get time in HH:mm format
+      setTime(new Date(event.date).toISOString().substring(11, 16)); 
     } else {
       setTime(""); // Reset time for new event
     }
