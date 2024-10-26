@@ -132,7 +132,7 @@ const renderHeader = () => (
         days.push(
           <div
             key={cloneDay}
-            className={`border p-2 cursor-pointer w-fit transition duration-200 ease-in-out rounded-lg ${
+            className={`border p-2 cursor-pointer w-fit md:w-full transition duration-200 ease-in-out rounded-lg ${
               !isSameMonth(cloneDay, monthStart)
                 ? "text-gray-400" 
                 : "text-black"
