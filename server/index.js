@@ -17,7 +17,7 @@ app.use(cookieParser());
 // CORS middleware (must be above routes to ensure headers are applied)
 app.use(
   cors({
-    origin: "http://localhost:3000", // Allow only your frontend's origin
+    origin: "*", // Allow only your frontend's origin
     methods: ["GET", "POST", "PUT", "DELETE"], // Allowed HTTP methods
     allowedHeaders: ["Content-Type", "Authorization"], // Allowed headers
     credentials: true, // Allow credentials like cookies
